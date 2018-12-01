@@ -1,4 +1,4 @@
-{:paths ["src"]
+{:paths ["src" "resources"]
  :deps {org.clojure/clojure {:mvn/version "1.10.0-RC2"}}
  :aliases
  {:check {:extra-deps {athos/clj-check {:git/url "https://github.com/athos/clj-check.git"
