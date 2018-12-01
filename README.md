@@ -1,4 +1,5 @@
 # advent-of-code-2018
+[![CircleCI](https://circleci.com/gh/athos/advent-of-code-2018.svg?style=shield)](https://circleci.com/gh/athos/advent-of-code-2018)
 
 My solutions for [Advent of Code 2018](https://adventofcode.com/2018) in Clojure.
 
