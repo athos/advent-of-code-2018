@@ -1,6 +1,5 @@
 (ns advent-of-code-2018.day05
-  (:require [clojure.string :as str]
-            [clojure.core.reducers :as r]))
+  (:require [clojure.string :as str]))
 
 (set! *unchecked-math* true)
 
