@@ -6,7 +6,7 @@
         (re-matches #"^\[(\d+)-(\d\d)-(\d\d) (\d\d):(\d\d)\] (.+)$" line)
         [year month day hour minute] (->> [year month day hour minute]
                                           (map #(Long/parseLong ^String %)))]
-    {:time (-> (LocalDateTime/of year month day hour minute 00)
+    {:time (-> (LocalDateTime/of (int year) (int month) (int day) (int hour) (int minute) 00)
                (.toEpochSecond ZoneOffset/UTC)
                (/ 60))
      :action (condp re-matches action
