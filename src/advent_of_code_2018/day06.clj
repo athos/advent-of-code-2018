@@ -11,7 +11,7 @@
         [min-x max-x] (apply (juxt min max) (map second ps))]
    {:min-y min-y, :min-x min-x, :max-y max-y, :max-x max-x
     :ps (into {} (map-indexed (fn [id coord] [id [coord]])) ps)
-    :map (into {} (map-indexed (fn [id coord] [coord #{id}])) ps)}))
+    :map (into {} (map-indexed (fn [id coord] [coord [id]])) ps)}))
 
 (defn neighbors [{m :map :as state} pred coords]
   (->> (for [[y x] coords
@@ -28,7 +28,7 @@
            :map (->> (for [[id coords] ps', coord coords] [id coord])
                      (group-by second)
                      (reduce (fn [m [coord ps]]
-                               (assoc m coord (set (map first ps))))
+                               (assoc m coord (map first ps)))
                              m)))))
 
 (defn infinite-area-ids [{m :map :keys [min-y min-x max-y max-x]}]
@@ -41,14 +41,13 @@
                      (into ids))))
                #{})))
 
-(defn exclude-infinite-areas [{m :map :keys [min-y min-x max-y max-x] :as state}]
+(defn exclude-infinite-areas [{m :map :as state}]
   (let [excluded? (infinite-area-ids state)]
-    (->> (for [y (range min-y (inc max-y)), x (range min-x (inc max-x))] [y x])
-         (reduce (fn [m coord]
-                   (cond-> m
-                     (some excluded? (get m coord))
-                     (dissoc coord)))
-                 m))))
+    (reduce-kv (fn [m coord _]
+                 (cond-> m
+                   (some excluded? (get m coord))
+                   (dissoc coord)))
+               m m)))
 
 (defn valid? [{:keys [min-y min-x max-y max-x]} [y x]]
   (and (<= min-y y max-y) (<= min-x x max-x)))
