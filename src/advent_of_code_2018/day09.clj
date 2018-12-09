@@ -56,7 +56,9 @@
   (inc (rem (dec i) (count players))))
 
 (defn step [{:keys [nodes players] :as state} ^long i]
-  (if (= (rem i 23) 0)
+  (if (> (rem i 23) 0)
+    (let [next-node (add-value! nodes i)]
+      (assoc state :nodes next-node))
     (let [player (num->player players i)
           node (->> (iterate left nodes)
                     (drop 7)
@@ -64,9 +66,7 @@
           v (value node)]
       (assoc state
              :nodes (remove-node! node)
-             :players (update players player + i v)))
-    (let [next-node (add-value! nodes i)]
-      (assoc state :nodes next-node))))
+             :players (update players player + i v)))))
 
 (defn solve1 [^long n-players ^long last]
   (let [nodes (init-nodes)
