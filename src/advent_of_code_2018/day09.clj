@@ -1,5 +1,7 @@
 (ns advent-of-code-2018.day09)
 
+(set! *unchecked-math* :warn-on-boxed)
+
 (defprotocol INode
   (value [this])
   (left [this])
@@ -50,10 +52,10 @@
     (set-right! l r)
     r))
 
-(defn num->player [players i]
-  (inc (mod (dec i) (count players))))
+(defn num->player [players ^long i]
+  (inc (rem (dec i) (count players))))
 
-(defn step [{:keys [nodes players] :as state} i]
+(defn step [{:keys [nodes players] :as state} ^long i]
   (if (= (rem i 23) 0)
     (let [player (num->player players i)
           node (->> (iterate left nodes)
@@ -66,7 +68,7 @@
     (let [next-node (add-value! nodes i)]
       (assoc state :nodes next-node))))
 
-(defn solve1 [n-players last]
+(defn solve1 [^long n-players ^long last]
   (let [nodes (init-nodes)
         players (zipmap (range 1 (inc n-players)) (repeat 0))]
     (loop [state {:nodes nodes :players players}, i 2]
