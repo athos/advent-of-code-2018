@@ -1,4 +1,5 @@
-(ns advent-of-code-2018.day10)
+(ns advent-of-code-2018.day10
+  (:require [clojure.string :as str]))
 
 (defn parse-line [line]
   (let [[_ x y dx dy] (re-matches #"position=\<\s*(-?\d+),\s+(-?\d+)\> velocity=\<\s*(-?\d+),\s+(-?\d+)\>" line)]
@@ -8,14 +9,14 @@
 (defn points->map [ps]
   (reduce #(update %1 (:pos %2) (fnil conj []) (:vel %2)) {} ps))
 
-(defn print-map [m]
+(defn stringify-map [m]
   (let [[min-y max-y] (apply (juxt min max) (map (comp first key) m))
-        [min-x max-x] (apply (juxt min max) (map (comp second key) m))
-        width (- max-x (dec min-x))]
-    (doseq [y (range min-y (inc max-y))]
-      (doseq [x (range min-x (inc max-x))]
-        (print (if (get m [y x]) \# \.)))
-      (newline))))
+        [min-x max-x] (apply (juxt min max) (map (comp second key) m))]
+    (->> (for [y (range min-y (inc max-y))]
+           (->> (for [x (range min-x (inc max-x))]
+                  (if (get m [y x]) \# \.))
+                str/join))
+         (str/join \newline))))
 
 (defn step [m]
   (reduce-kv (fn [m [y x :as pos] vels]
@@ -29,17 +30,19 @@
     (- max-y (dec min-y))))
 
 (defn solve [m]
-  (->> (iterate step m)
-       (partition 2 1)
-       (split-with (fn [[m1 m2]] (> (map-height m1) (map-height m2))))))
+  (transduce (map-indexed (fn [i m] [(inc i) m (map-height m)]))
+             (completing
+              (fn [[i m h] [i' m' h' :as x]]
+                (if (>= h h')
+                  x
+                  (reduced [i m]))))
+             [0 m (map-height m)]
+             (iterate step (step m))))
 
 (defn solve1 [lines]
   (->> (solve (points->map (map parse-line lines)))
        second
-       ffirst
-       print-map))
+       stringify-map))
 
 (defn solve2 [lines]
-  (->> (solve (points->map (map parse-line lines)))
-       first
-       count))
+  (first (solve (points->map (map parse-line lines)))))
