@@ -12,7 +12,7 @@
   (is (= "21,61" (day11/solve1 42)))
   (is (= "21,53" (day11/solve1 6548))))
 
-(deftest solve2-test
+(deftest ^:heavy solve2-test
   (is (= "90,269,16" (day11/solve2 18)))
   (is (= "232,251,12" (day11/solve2 42)))
   (is (= "233,250,12" (day11/solve2 6548))))

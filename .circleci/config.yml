@@ -31,4 +31,4 @@ jobs:
 
       - run:
           name: test CLJ
-          command: clojure -Atest
+          command: clojure -Atest -e heavy
