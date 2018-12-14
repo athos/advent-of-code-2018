@@ -7,7 +7,7 @@
   (is (= 0 (day11/power-level 39 196 217)))
   (is (= 4 (day11/power-level 71 153 101))))
 
-(deftest solve1-test
+(deftest ^:heavy solve1-test
   (is (= "33,45" (day11/solve1 18)))
   (is (= "21,61" (day11/solve1 42)))
   (is (= "21,53" (day11/solve1 6548))))
