@@ -59,7 +59,7 @@
                 "#.......#####...#....#..#....#..######..######..#....#...###.#")
            (day10/solve1 (line-seq r))))))
 
-(deftest solve2-test
+(deftest ^:heavy solve2-test
   (is (= 3 (day10/solve2 lines)))
-  #_(with-open [r (io/reader (io/resource "input10.txt"))]
+  (with-open [r (io/reader (io/resource "input10.txt"))]
     (is (= 10009 (day10/solve2 (line-seq r))))))
