@@ -11,5 +11,5 @@
   (is (= 37305 (day09/solve1 30 5807)))
   (is (= 410375 (day09/solve1 439 71307))))
 
-(deftest solve2-test
+(deftest ^:heavy solve2-test
   (is (= 3314195047 (day09/solve2 439 7130700))))
