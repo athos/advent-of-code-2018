@@ -36,7 +36,7 @@
    "position=<14,  7> velocity=<-2,  0>"
    "position=<-3,  6> velocity=< 2, -1>"])
 
-(deftest solve1-test
+(deftest ^:heavy solve1-test
   (is (= (str "#...#..###\n"
               "#...#...#.\n"
               "#...#...#.\n"
